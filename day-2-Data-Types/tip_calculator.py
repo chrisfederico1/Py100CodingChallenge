@@ -19,7 +19,7 @@ tip_to_float = tipPercentage / 100
 final_total = (total * tip_to_float) + total
 # Round the final_total with 2 decimal places
 # final_total = round(final_total, 2)
-print(f'${final_total:.2f}')
+# print(f'${final_total:.2f}')
 people = int(input("How many people should split the bill? "))
 pay_per_person = round(final_total / people, 2)
 
