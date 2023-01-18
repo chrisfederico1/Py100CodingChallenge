@@ -3,7 +3,7 @@
 import random
 
 random_number = random.randint(1, 10)
-#print(random_number)
+# print(random_number)
 
 # You can create separate files you can use as modules
 
