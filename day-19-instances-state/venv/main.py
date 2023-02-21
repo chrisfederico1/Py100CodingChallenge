@@ -31,7 +31,6 @@ if user_bet:
     is_race_on = True
 
 
-
 while is_race_on:
 
     for turtle in lineup:
