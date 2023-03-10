@@ -1,4 +1,6 @@
 from turtle import Turtle
+from os import system
+
 
 class Ball(Turtle):
 
@@ -21,7 +23,8 @@ class Ball(Turtle):
         if self.ycor() > 290:
             self.sety(290)
             self.dy *= -1  # Reverse the direction
-
+            system("aplay bounce.wav&")
         elif self.ycor() < -290:
             self.sety(-290)
             self.dy *= -1
+            system("aplay bounce.wav&")
