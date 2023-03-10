@@ -15,17 +15,3 @@ class Scoreboard(Turtle):
         self.color("white")
         self.hideturtle()
         self.write(f"Player A: {self.p1score} Player B: {self.p2score}", align=ALIGNMENT, font=FONT)
-
-    def check_left_right(self):
-        if Ball.xcor(self) > 320:
-            self.p1score += 1
-            self.clear()
-            self.write(f"Player A: {self.p1score} Player B: {self.p2score}", align=ALIGNMENT, font=FONT)
-            Ball.goto(0, 0)
-            Ball.dx *= -1
-        elif Ball.xcor(self) < -320:
-            self.p2score += 1
-            self.clear()
-            self.write(f"Player A: {self.p1score} Player B: {self.p2score}", align=ALIGNMENT, font=FONT)
-            Ball.goto(0, 0)
-            Ball.dx *= -1
