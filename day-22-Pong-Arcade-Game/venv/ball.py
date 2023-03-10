@@ -2,6 +2,10 @@ from turtle import Turtle
 from os import system
 
 
+ALIGNMENT = "center"
+FONT = ("Arial", 24, "normal")
+
+
 class Ball(Turtle):
 
     def __init__(self):
@@ -11,20 +15,25 @@ class Ball(Turtle):
         self.color("white")
         self.penup()
         self.goto(0, 0)
-        self.dx = 2
-        self.dy = -2
+        self.x_move = 10
+        self.y_move = 10
+        self.move_speed = 0.1
 
-    def hit_ball(self):
-        self.setx(self.xcor() + self.dx)
-        self.sety(self.ycor() + self.dy)
+    def move(self):
+        new_x = self.xcor() + self.x_move
+        new_y = self.ycor() + self.y_move
+        self.goto(new_x, new_y)
 
-    def check_top_bottom(self):
-        # Top and Bottom Border
-        if self.ycor() > 290:
-            self.sety(290)
-            self.dy *= -1  # Reverse the direction
-            system("aplay bounce.wav&")
-        elif self.ycor() < -290:
-            self.sety(-290)
-            self.dy *= -1
-            system("aplay bounce.wav&")
+    def bounce_y(self):
+        self.y_move *= -1
+        system("aplay bounce.wav&")
+
+    def bounce_x(self):
+        self.x_move *= -1
+        self.move_speed *= 0.9
+        system("aplay bounce.wav&")
+
+    def reset_position(self):
+        self.goto(0, 0)
+        self.move_speed = 0.1
+        self.bounce_x()

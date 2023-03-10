@@ -2,6 +2,7 @@ from turtle import Screen
 from paddle import Paddle
 from scoreboard import Scoreboard
 from ball import Ball
+import time
 
 ALIGNMENT = "center"
 FONT = ("Arial", 24, "normal")
@@ -15,69 +16,50 @@ screen.setup(width=800, height=600)
 screen.bgcolor("black")
 # setup Title
 screen.title("Pong Game")
+screen.tracer(0)
 
 
-paddle = Paddle()
 scoreboard = Scoreboard()
 ball = Ball()
 
+r_paddle = Paddle((350, 0))
+l_paddle = Paddle((-350, 0))
+
 # Key Bindings
 screen.listen()
-screen.onkey(key="w", fun=paddle.up_p1)
-screen.onkey(key="s", fun=paddle.down_p1)
-screen.onkey(key="Up", fun=paddle.up_p2)
-screen.onkey(key="Down", fun=paddle.down_p2)
+screen.onkey(fun=l_paddle.go_up, key="w")
+screen.onkey(fun=l_paddle.go_down, key="s")
+screen.onkey(fun=r_paddle.go_up, key="Up")
+screen.onkey(fun=r_paddle.go_down, key="Down")
 
-while True:
+
+game_is_on = True
+
+
+while game_is_on:
+    time.sleep(ball.move_speed)
     screen.update()
 
     # Move the ball
-    ball.hit_ball()
+    ball.move()
 
-    # Check Top and Bottom
-    ball.check_top_bottom()
+    # Detect collision with wall
+    if ball.ycor() > 280 or ball.ycor() < -280:
+        ball.bounce_y() 
 
-    # Check left and right
-    if ball.xcor() > 350:
-        scoreboard.p1score += 1
-        scoreboard.clear()
-        scoreboard.write(f"Player A: {scoreboard.p1score} Player B: {scoreboard.p2score}", align=ALIGNMENT, font=FONT)
-        ball.goto(0, 0)
-        ball.dx *= -1
-    elif ball.xcor() < -350:
-        scoreboard.p2score += 1
-        scoreboard.clear()
-        scoreboard.write(f"Player A: {scoreboard.p1score} Player B: {scoreboard.p2score}", align=ALIGNMENT, font=FONT)
-        ball.goto(0, 0)
-        ball.dx *= -1
+    # Detect Collision
+    if ball.distance(r_paddle) < 50 and ball.xcor() > 320 or ball.distance(l_paddle) < 50 and ball.xcor() < -320:
+        ball.bounce_x()
 
-    # Paddle and Ball Collisions
-    if ball.xcor() < -340 and ball.ycor() < paddle.paddle1.ycor() + 50 and ball.ycor() > paddle.paddle1.ycor() - 50:
-        ball.dx *= -1
-    elif ball.xcor() > 340 and ball.ycor() < paddle.paddle2.ycor() + 50 and ball.ycor() > paddle.paddle2.ycor() - 50:
-        ball.dx *= -1
+    # Detect if R paddle misses
+    if ball.xcor() > 380:
+        ball.reset_position()
+        scoreboard.l_point()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # Detect L paddle Misses
+    if ball.xcor() < -380:
+        ball.reset_position()
+        scoreboard.r_point()
 
 
 
