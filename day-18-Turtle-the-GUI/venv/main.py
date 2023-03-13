@@ -35,6 +35,7 @@ def draw_row():
         chris.forward(forward)
     chris.dot(r, random_color)
 
+
 for i in range(0, 5):
     draw_row()
     chris.left(90)
